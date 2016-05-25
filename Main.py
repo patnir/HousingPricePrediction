@@ -9,6 +9,8 @@ import csv
 def openingMessage():
     print("\n" + "My attempt at housing price prediction from a dataset of 50 houses" + "\n")
 
+
+
 def importData(filename):
     with open(filename, 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter = '\t')
@@ -26,16 +28,22 @@ def printArray(array):
         print i
         print array[i]
 
+def extractYFromData(data):
+    y = [[each_list[i] for i in range(len(data[0]) - 1, len(data[0]))] for each_list in data[1:len(data)]]
+    return y
+
+def extractXFromData(data):
+    return [[each_list[i] for i in range(0, len(data[0]) - 1)] for each_list in data[1:len(data)]]
+
 def main():
     openingMessage()
     data = importData("data.csv")
     heading = assignHeading(data)
     print heading
-    y = [[each_list[i] for i in range(len(data[0]) - 1, len(data[0]))] for each_list in data[1:len(data)]]
-    printArray(y)   
-    X = [[each_list[i] for i in range(0, len(data[0]) - 1)] for each_list in data[1:len(data)]]
+    y = extractYFromData(data)
+    printArray(y)
+    X = extractXFromData(data)
     printArray(X)
-    #printArray(y)
             
 if __name__ == "__main__":
     main()
