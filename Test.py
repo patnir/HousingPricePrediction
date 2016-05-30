@@ -61,18 +61,19 @@ def PrintRowFromArray(array, row):
 def ExtractColummnFromData(matrix, i):
     return [row[i] for row in matrix]
     
-MeanNormalizeData(Beds)
-PrintArray(Beds)
-
-meanNormalizedX = []
-
-
 def MeanNormalizeX():
     for i in range(0, len(X[0]) - 1):
         row = ExtractColummnFromData(X, i)
         MeanNormalizeData(row)
-        print row
+        for j in range(0, len(row)):
+            X[j][i] = row[j]
         
 MeanNormalizeX()
+
+PrintArray(X)
+
+PrintArray(Price)
+
+print Price[0]
         
     

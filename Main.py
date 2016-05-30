@@ -6,47 +6,70 @@ Created on Tue May 24 19:59:21 2016
 """
 import csv
 
-def openingMessage():
+def OpeningMessage():
     print("\n" + "My attempt at housing price prediction from a dataset of 50 houses" + "\n")
 
-def importData(filename):
+def ImportData(filename):
     with open(filename, 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter = '\t')
         data = list(spamreader)
         return data
 
-def assignHeading(data):
+def AssignHeading(data):
     heading = []
     for i in range(0,len(data[0])):
         heading.append(data[0][i])    
     return heading
-    
-def printArray(array):
-    for i in range(0, len(array)):
-        print i
-        print array[i]
 
-def extractYFromData(data):
+def PrintArray(array):
+    for i in range(0, len(array)):
+        print array[i]
+    print i
+
+def ExtractYFromData(data):
     y = [[each_list[i] for i in range(len(data[0]) - 1, len(data[0]))] for each_list in data[1:len(data)]]
+    for i in range(0, len(y)):
+        y[i] = float(y[i][0])
     return y
 
-def extractXFromData(data):
-    return [[each_list[i] for i in range(0, len(data[0]) - 1)] for each_list in data[1:len(data)]]
+def ExtractXFromData(data):
+    X = [[each_list[i] for i in range(0, len(data[0]) - 1)] for each_list in data[1:len(data)]]
+    # convert all values in X to floats
+    track = 0
+    for i in X:
+        X[track] = [float(x) for x in i]
+        track += 1
+    return X
 
-def extractColummnFromMatrix(matrix, i):
+def ExtractColummnFromMatrix(matrix, i):
     return [row[i] for row in matrix]
 
+def MeanNormalizeData(array):
+    maxMinArray = max(array) -  min(array)
+    meanArray = reduce(lambda x, y: x + y, array) / len(array)
+    for i in range(0,len(array)):
+        array[i] -= meanArray
+        array[i] = array[i] / maxMinArray
+        array[i] = round(array[i], 5)
+
+def MeanNormalizeX(X):
+    for i in range(0, len(X[0]) - 1):
+        row = ExtractColummnFromMatrix(X, i)
+        MeanNormalizeData(row)
+        for j in range(0, len(row)):
+            X[j][i] = row[j]
+
 def main():
-    openingMessage()
-    data = importData("data.csv")
-    heading = assignHeading(data)
+    OpeningMessage()
+    data = ImportData("data.csv")
+    heading = AssignHeading(data)
     print heading
-    y = extractYFromData(data)
-    printArray(y)
-    X = extractXFromData(data)
-    printArray(X)
-    Beds = extractColummnFromMatrix(X, 0)
-    print Beds
+    y = ExtractYFromData(data)
+    PrintArray(y)
+    X = ExtractXFromData(data)
+    PrintArray(X)
+    MeanNormalizeX(X)
+    
             
 if __name__ == "__main__":
     main()
