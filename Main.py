@@ -59,6 +59,17 @@ def MeanNormalizeX(X):
         for j in range(0, len(row)):
             X[j][i] = row[j]
 
+def SaveXToFile(array, filename):
+    with open (filename, 'wb') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter = '\t')
+        for i in range(0, len(array)):
+            spamwriter.writerow(array[i])
+            
+def SaveYToFile(array, filename):
+    with open (filename, 'wb') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter = '\t')
+        spamwriter.writerow(array)
+
 def main():
     OpeningMessage()
     data = ImportData("data.csv")
@@ -69,7 +80,8 @@ def main():
     X = ExtractXFromData(data)
     PrintArray(X)
     MeanNormalizeX(X)
-    
+    SaveXToFile(X, 'xData.csv')
+    SaveYToFile(y, 'yData.csv')
             
 if __name__ == "__main__":
     main()
