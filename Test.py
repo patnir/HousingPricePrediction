@@ -7,13 +7,13 @@ Created on Wed May 25 12:41:22 2016
 
 import csv
 
-Beds = []
-Baths = []
-Sqft = []
-LotSize =  []
-IsPriceReduced = []
-RecentDate = []
-PropertyType = []
+Beds = [] # Use data
+Baths = [] # Use data
+Sqft = [] # Use data
+LotSize =  [] # Use Data
+IsPriceReduced = [] # Use Data
+RecentDate = [] # Use Data
+PropertyType = [] # Not using data = all Data is 1
 Price = []
 Labels = []
 X = []
@@ -29,7 +29,8 @@ def LoadDataFromFile():
                 for j in i:
                     Labels.append(j)
             else:
-                X.append(i[0:len(i)])
+                i = [float(x) for x in i] # Convert all elements to a float
+                X.append(i[0:len(i) - 1])
                 Beds.append(float(i[0]))
                 Baths.append(float(i[1]))
                 Sqft.append(float(i[2]))
@@ -42,13 +43,13 @@ def LoadDataFromFile():
 LoadDataFromFile()
 
 def MeanNormalizeData(array):
-    meanBeds = reduce(lambda x, y: x + y, Beds) / len(array)
+    maxMinArray = max(array) -  min(array)
+    meanArray = reduce(lambda x, y: x + y, array) / len(array)
     for i in range(0,len(array)):
-        Beds[i] -= meanBeds
-    print round(Beds[0], 2)
+        array[i] -= meanArray
+        array[i] = array[i] / maxMinArray
+        array[i] = round(array[i], 5)
     
-MeanNormalizeData(Beds)
-
 def PrintArray(array):
     for i in range(0, len(array)):
         print array[i]
@@ -59,4 +60,19 @@ def PrintRowFromArray(array, row):
 
 def ExtractColummnFromData(matrix, i):
     return [row[i] for row in matrix]
+    
+MeanNormalizeData(Beds)
+PrintArray(Beds)
+
+meanNormalizedX = []
+
+
+def MeanNormalizeX():
+    for i in range(0, len(X[0]) - 1):
+        row = ExtractColummnFromData(X, i)
+        MeanNormalizeData(row)
+        print row
+        
+MeanNormalizeX()
+        
     
