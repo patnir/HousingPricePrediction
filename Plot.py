@@ -16,14 +16,20 @@ def ImportData(filename):
             data[i] = [float(x) for x in data[i]]
         return data
 
+def PrintArray(array):
+    for i in range(len(array)):
+        print array[i]
+    print i
+
 def ExtractColummnFromData(matrix, i):
     return [row[i] for row in matrix]
 
 def main():
-    xData = ImportData('xData.csv')
+    X = ImportData('xData.csv')
     yData = ImportData('yData.csv')
-    beds = ExtractColummnFromData(xData, 2)
-    plt.plot(beds, yData[0], 'ro')
+    y = yData[0]
+    beds = ExtractColummnFromData(X, 2)
+    plt.plot(beds, y, 'ro')
     plt.show()
                 
 if __name__ == "__main__":

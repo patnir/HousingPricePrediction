@@ -51,18 +51,18 @@ def MeanNormalizeData(array):
         array[i] = round(array[i], 5)
     
 def PrintArray(array):
-    for i in range(0, len(array)):
+    for i in range(len(array)):
         print array[i]
  
 def PrintRowFromArray(array, row):
-    for i in range(0, len(array)):
+    for i in range(len(array)):
         print array[i][row]
 
 def ExtractColummnFromData(matrix, i):
     return [row[i] for row in matrix]
     
 def MeanNormalizeX():
-    for i in range(0, len(X[0]) - 1):
+    for i in range(len(X[0]) - 1):
         row = ExtractColummnFromData(X, i)
         MeanNormalizeData(row)
         for j in range(0, len(row)):

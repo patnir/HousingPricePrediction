@@ -17,18 +17,18 @@ def ImportData(filename):
 
 def AssignHeading(data):
     heading = []
-    for i in range(0,len(data[0])):
+    for i in range(len(data[0])):
         heading.append(data[0][i])    
     return heading
 
 def PrintArray(array):
-    for i in range(0, len(array)):
+    for i in range(len(array)):
         print array[i]
     print i
 
 def ExtractYFromData(data):
     y = [[each_list[i] for i in range(len(data[0]) - 1, len(data[0]))] for each_list in data[1:len(data)]]
-    for i in range(0, len(y)):
+    for i in range(len(y)):
         y[i] = float(y[i][0])
     return y
 
@@ -53,16 +53,16 @@ def MeanNormalizeData(array):
         array[i] = round(array[i], 5)
 
 def MeanNormalizeX(X):
-    for i in range(0, len(X[0]) - 1):
+    for i in range(len(X[0]) - 1):
         row = ExtractColummnFromMatrix(X, i)
         MeanNormalizeData(row)
-        for j in range(0, len(row)):
+        for j in range(len(row)):
             X[j][i] = row[j]
 
 def SaveXToFile(array, filename):
     with open (filename, 'wb') as csvfile:
         spamwriter = csv.writer(csvfile, delimiter = '\t')
-        for i in range(0, len(array)):
+        for i in range(len(array)):
             spamwriter.writerow(array[i])
             
 def SaveYToFile(array, filename):
