@@ -6,7 +6,7 @@ Created on Mon May 30 10:46:07 2016
 """
 import csv
 import matplotlib.pyplot as plt
-
+from sklearn import tree
 
 def ImportData(filename):
     with open(filename, 'rb') as csvfile:
