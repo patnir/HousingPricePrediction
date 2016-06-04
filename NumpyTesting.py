@@ -61,7 +61,22 @@ def GradientDescent(X, y, theta, alpha):
         else:
             temp[i] = temp[i] - (alpha / m) * (cost) * sum(X[i])
     theta = temp
-    return theta
+    
+
+def Optimization(X_array, y_array, theta, alpha, repetitions, cost):
+    prev_cost = sys.maxint * sys.maxint
+    prev_theta = theta
+    for i in range(repetitions):
+        GradientDescent(X_array, y_array, theta, alpha)
+        #print theta
+        current_cost = CostFunction(X_array, y_array, theta)
+        # print "round =", i, "; cost = ", cost[i]
+        if (prev_cost < current_cost):
+            theta = prev_theta
+            break
+        cost.append(current_cost)
+        prev_cost = current_cost
+        prev_theta = theta
             
 def main():
     # Extracting X data, features
@@ -70,9 +85,9 @@ def main():
     # Extracting y data, labels
     y = yData[0]
     # Plotting a graph for better 
-    beds = ExtractColummnFromData(X, 2)
-    Plot(beds, y, "regularized beds", "prices", 
-         "showing relationship between number of beds and price")
+#    beds = ExtractColummnFromData(X, 2)
+#    Plot(beds, y, "regularized beds", "prices", 
+#         "showing relationship between number of beds and price")
     # Converting X into an array using numpy for improved matrix operations
     X_array = np.array(X)
     # Converting y into an array
@@ -80,26 +95,17 @@ def main():
     # PrintArray(y_array)
     # Assigning zeros to theta to represent initial predictions
     theta = np.zeros(len(X[0]))
-    # Making a cost function for linear regression
-    print "cost -1 =", CostFunction(X_array, y_array, theta)
+    # setting number of repetitions    
     repetitions = 10000
-    #print repetitions
-    alpha = 0.01
+    # setting learning rate
+    alpha = 0.0008
+    # initializing costs to keep track of how cost changes with each repetition
     cost = []
-    prev_cost = sys.maxint * sys.maxint
-    for i in range(repetitions):
-        theta = GradientDescent(X_array, y_array, theta, alpha)
-        #print theta
-        current_cost = CostFunction(X_array, y_array, theta)
-        # print "round =", i, "; cost = ", cost[i]
-        if (prev_cost < current_cost):
-            print prev_cost
-            print current_cost
-            break
-        cost.append(current_cost)
-        prev_cost = current_cost
+    # Optimizing cost function
+    Optimization(X_array, y_array, theta, alpha, repetitions, cost)
+    # Plotting how cost varies as a function of number of repetitions
     Plot(range(len(cost)), cost, "repetitions", "cost", "tracking cost as repetitions increase")
-    
+    print "minimum cost = %.4g" %(min(cost))
     
 if __name__ == "__main__":
     main()
