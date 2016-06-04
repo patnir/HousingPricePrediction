@@ -22,7 +22,7 @@ def PrintArray(array):
     for i in range(len(array)):
         print array[i]
 
-def ExtractColummnFromData(matrix, i):
+def ExtractColummnFromMatrix(matrix, i):
     return [row[i] for row in matrix]
 
 def Plot(x, y, xlabel, ylabel, title):
@@ -33,30 +33,36 @@ def Plot(x, y, xlabel, ylabel, title):
     plt.show()
     
 def CostFunction(X, y, theta):
-    m = len(X)
-    cost = np.array((np.dot(X, theta) - y))
-    result = [(1.0 / (2.0 * m)) * math.pow(x, 2) for x in cost]
-    return sum(result)
+    m = float(len(X))
+    predictions = np.dot(X, theta)
+    errors_squared = np.subtract(predictions, y)
+    #print errors_squared
+    errors_squared = [round(math.pow(x, 2), 5) for x in errors_squared]
+    J = (1.0 / (2.0 * m)) * sum(errors_squared)
+    return J
     
 def GradientDescent(X, y, theta, alpha):
     temp = theta
     m = len(X)
-    cost = np.array((np.dot(X, theta) - y))
+    errors = np.dot(X, theta)
+    errors = np.subtract(errors, y)
+    offset = alpha / m
     for i in range(len(theta)):
         if (i == 0):
-            temp[i] = temp[i] - (alpha / m) * (cost[i])
+            temp[i] = temp[i] - offset * sum(errors * np.transpose([ExtractColummnFromMatrix(X, i)]))
         else:
-            temp[i] = temp[i] - (alpha / m) * (cost[i]) * sum(X[i])
+            temp[i] = temp[i] - offset * sum(errors * np.transpose([ExtractColummnFromMatrix(X, i)]))
     theta = temp
     
 def Optimization(X_array, y_array, theta, alpha, repetitions, cost):
     prev_cost = sys.maxint * sys.maxint
     prev_theta = theta
+    #print repetitions
     for i in range(repetitions):
         GradientDescent(X_array, y_array, theta, alpha)
-        #print theta
+        #PrintArray(theta)
         current_cost = CostFunction(X_array, y_array, theta)
-        # print "round =", i, "; cost = ", cost[i]
+        #print "round =", i, "; cost = ", current_cost
         if (prev_cost < current_cost):
             theta = prev_theta
             break
@@ -67,9 +73,13 @@ def Optimization(X_array, y_array, theta, alpha, repetitions, cost):
 def main():
     # Extracting X data, features
     X = ImportData('xData.csv')
+    # Adding an aditional row of ones to X for X0 values    
+    X = [[1.0] + x for x in X]
     yData = ImportData('yData.csv')
     # Extracting y data, labels
-    y = yData[0]
+    y = []
+    for i in yData[0]:
+        y.append([i])
     # Plotting a graph for better 
 #    beds = ExtractColummnFromData(X, 2)
 #    Plot(beds, y, "regularized beds", "prices", 
@@ -80,9 +90,9 @@ def main():
     y_array = y
     # PrintArray(y_array)
     # Assigning zeros to theta to represent initial predictions
-    theta = np.zeros(len(X[0]))
+    theta = np.zeros((len(X[0]), 1))
     # setting number of repetitions    
-    repetitions = 10000
+    repetitions = 100
     # setting learning rate
     alpha = 0.0003
     # initializing costs to keep track of how cost changes with each repetition
@@ -91,7 +101,7 @@ def main():
     Optimization(X_array, y_array, theta, alpha, repetitions, cost)
     # Plotting how cost varies as a function of number of repetitions
     Plot(range(len(cost)), cost, "repetitions", "cost", "tracking cost as repetitions increase")
-    print "minimum cost = %.4g" %(min(cost))
+    #print "minimum cost = %.4g" %(min(cost))
         
 if __name__ == "__main__":
     main()
