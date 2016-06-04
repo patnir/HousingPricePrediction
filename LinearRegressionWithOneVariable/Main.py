@@ -79,7 +79,7 @@ def main():
     #Plot(X, y, "Population of city in 10,000s", "Profit in $10,000s", "Scatter plot of training data")
     # Adding an aditional row of ones to X for X0 values
     X = [[1.0] + x for x in X]
-    #PrintArray(X)
+    PrintArray(y)
     theta = np.zeros((len(X[0]), 1))
     # PrintArray(theta)
     # Setting number of iterations for gradient descent
@@ -97,9 +97,7 @@ def main():
     Plot(range(len(cost)), cost, "iterations", "cost", "tracking cost as repetitions increase")
     print "minimum cost = %.4g" %(min(cost))
     print "minimum theta =", theta
-    
-    
-    
+      
     
 if __name__ == "__main__":
     main()
