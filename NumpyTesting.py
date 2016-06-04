@@ -10,7 +10,6 @@ import numpy as np
 import math
 import sys
 
-
 def ImportData(filename):
     with open(filename, 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter = '\t')
@@ -93,7 +92,6 @@ def main():
     # Plotting how cost varies as a function of number of repetitions
     Plot(range(len(cost)), cost, "repetitions", "cost", "tracking cost as repetitions increase")
     print "minimum cost = %.4g" %(min(cost))
-    
-    
+        
 if __name__ == "__main__":
     main()
