@@ -72,9 +72,9 @@ def Optimization(X_array, y_array, theta, alpha, repetitions, cost):
             
 def main():
     # Extracting X data, features
-    X = ImportData('xData.csv')
+    XData = ImportData('xData.csv')
     # Adding an aditional row of ones to X for X0 values    
-    X = [[1.0] + x for x in X]
+    X = [[1.0] + x for x in XData]
     yData = ImportData('yData.csv')
     # Extracting y data, labels
     y = []
@@ -84,11 +84,6 @@ def main():
 #    beds = ExtractColummnFromData(X, 2)
 #    Plot(beds, y, "regularized beds", "prices", 
 #         "showing relationship between number of beds and price")
-    # Converting X into an array using numpy for improved matrix operations
-    X_array = X
-    # Converting y into an array
-    y_array = y
-    # PrintArray(y_array)
     # Assigning zeros to theta to represent initial predictions
     theta = np.zeros((len(X[0]), 1))
     # setting number of repetitions    
@@ -98,7 +93,7 @@ def main():
     # initializing costs to keep track of how cost changes with each repetition
     cost = []
     # Optimizing cost function
-    Optimization(X_array, y_array, theta, alpha, repetitions, cost)
+    Optimization(X, y, theta, alpha, repetitions, cost)
     # Plotting how cost varies as a function of number of repetitions
     Plot(range(len(cost)), cost, "repetitions", "cost", "tracking cost as repetitions increase")
     print "minimum cost = %.4g" %(min(cost))

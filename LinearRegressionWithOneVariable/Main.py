@@ -50,10 +50,7 @@ def GradientDescent(X, y, theta, alpha):
     errors = np.subtract(errors, y)
     offset = alpha / m
     for i in range(len(theta)):
-        if (i == 0):
-            temp[i] = temp[i] - offset * sum(errors * np.transpose([ExtractColummnFromMatrix(X, i)]))
-        else:
-            temp[i] = temp[i] - offset * sum(errors * np.transpose([ExtractColummnFromMatrix(X, i)]))
+        temp[i] = temp[i] - offset * sum(errors * np.transpose([ExtractColummnFromMatrix(X, i)]))
     theta = temp
 
 def Optimization(X_array, y_array, theta, alpha, repetitions, cost):
