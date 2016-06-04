@@ -5,7 +5,6 @@ Created on Mon May 30 10:46:07 2016
 @author: Rahul Patni
 """
 import csv
-import matplotlib.pyplot as plt
 from sklearn import tree
 
 def ImportData(filename):
@@ -35,9 +34,6 @@ def main():
     yData = ImportData('yData.csv')
     y = yData[0]
     PrintArray(y)
-    beds = ExtractColummnFromData(X, 2)
-    plt.plot(beds, y, 'ro')
-    plt.show()
     clf = training(X, y)
     prediction = clf.predict([[-0.34, -0.37, -0.14338, 1.0, -0.0, 0.0, 0.0]])
     print prediction
