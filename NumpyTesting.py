@@ -42,17 +42,14 @@ def CostFunction(X, y, theta):
 def GradientDescent(X, y, theta, alpha):
     temp = theta
     m = len(X)
+    cost = np.array((np.dot(X, theta) - y))
     for i in range(len(theta)):
-        h_x = sum(X[i] * theta)
-        cost = h_x - y[i]        
         if (i == 0):
-            temp[i] = temp[i] - (alpha / m) * (cost)
+            temp[i] = temp[i] - (alpha / m) * (cost[i])
         else:
-            temp[i] = temp[i] - (alpha / m) * (cost) * sum(X[i])
+            temp[i] = temp[i] - (alpha / m) * (cost[i]) * sum(X[i])
     theta = temp
     
-# def GradientDescent2(X, y, theta, alpha):
-
 def Optimization(X_array, y_array, theta, alpha, repetitions, cost):
     prev_cost = sys.maxint * sys.maxint
     prev_theta = theta
@@ -97,6 +94,10 @@ def main():
     #Plot(range(len(cost)), cost, "repetitions", "cost", "tracking cost as repetitions increase")
     #print "minimum cost = %.4g" %(min(cost))
     print CostFunction(X, y, theta)
+    theta = np.zeros(len(X[0]))
+    GradientDescent(X, y, theta, alpha)
+    print theta
+    
     
 if __name__ == "__main__":
     main()
