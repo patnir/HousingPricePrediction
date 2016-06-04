@@ -89,14 +89,10 @@ def main():
     # initializing costs to keep track of how cost changes with each repetition
     cost = []
     # Optimizing cost function
-    #Optimization(X_array, y_array, theta, alpha, repetitions, cost)
+    Optimization(X_array, y_array, theta, alpha, repetitions, cost)
     # Plotting how cost varies as a function of number of repetitions
-    #Plot(range(len(cost)), cost, "repetitions", "cost", "tracking cost as repetitions increase")
-    #print "minimum cost = %.4g" %(min(cost))
-    print CostFunction(X, y, theta)
-    theta = np.zeros(len(X[0]))
-    GradientDescent(X, y, theta, alpha)
-    print theta
+    Plot(range(len(cost)), cost, "repetitions", "cost", "tracking cost as repetitions increase")
+    print "minimum cost = %.4g" %(min(cost))
     
     
 if __name__ == "__main__":
