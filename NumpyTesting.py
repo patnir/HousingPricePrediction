@@ -92,16 +92,17 @@ def main():
     # Assigning zeros to theta to represent initial predictions
     theta = np.zeros((len(X[0]), 1))
     # setting number of repetitions    
-    repetitions = 100
+    repetitions = 10000
     # setting learning rate
-    alpha = 0.0003
+    alpha = 0.1
     # initializing costs to keep track of how cost changes with each repetition
     cost = []
     # Optimizing cost function
     Optimization(X_array, y_array, theta, alpha, repetitions, cost)
     # Plotting how cost varies as a function of number of repetitions
     Plot(range(len(cost)), cost, "repetitions", "cost", "tracking cost as repetitions increase")
-    #print "minimum cost = %.4g" %(min(cost))
+    print "minimum cost = %.4g" %(min(cost))
+    print "minimum theta =", theta
         
 if __name__ == "__main__":
     main()
