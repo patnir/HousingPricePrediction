@@ -8,6 +8,7 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 import math
+import sys
 
 # Data contains the population of a city and the corresponding profits for a food truck
 
@@ -17,7 +18,7 @@ def LoadData(X, y, filename):
         line = line.rstrip()
         number = re.findall('[^,]+', line)
         X.append([float(number[0])])
-        y.append(float(number[1]))
+        y.append([float(number[1])])
         
 def PrintArray(array):
     for i in array:
@@ -31,26 +32,45 @@ def Plot(x, y, xlabel, ylabel, title):
     plt.show()    
     
 def CostFunction(X, y, theta):
-    m = len(X)
+    m = float(len(X))
     predictions = np.dot(X, theta)
-    errors_squared = predictions - y
-    errors_squared = [round(math.pow(x, 2), 5) for x in errors_squared[0]]
+    errors_squared = np.subtract(predictions, y)
+    #print errors_squared
+    errors_squared = [round(math.pow(x, 2), 5) for x in errors_squared]
     J = (1.0 / (2.0 * m)) * sum(errors_squared)
-    return J
-    #result = [(1.0 / (2.0 * m)) * math.pow(x, 2) for x in cost]
-    #return sum(result)    
+    return J    
+
+def ExtractColummnFromMatrix(matrix, i):
+    return [row[i] for row in matrix]
 
 def GradientDescent(X, y, theta, alpha):
     temp = theta
     m = len(X)
-    cost = np.array((np.dot(X, theta) - y))
+    errors = np.dot(X, theta)
+    errors = np.subtract(errors, y)
+    offset = alpha / m
     for i in range(len(theta)):
         if (i == 0):
-            temp[i] = temp[i] - (alpha / m) * (cost[i])
+            temp[i] = temp[i] - offset * sum(errors * np.transpose([ExtractColummnFromMatrix(X, i)]))
         else:
-            temp[i] = temp[i] - (alpha / m) * (cost[i]) * sum(X[i])
+            temp[i] = temp[i] - offset * sum(errors * np.transpose([ExtractColummnFromMatrix(X, i)]))
     theta = temp
 
+def Optimization(X_array, y_array, theta, alpha, repetitions, cost):
+    prev_cost = sys.maxint * sys.maxint
+    prev_theta = theta
+    #print repetitions
+    for i in range(repetitions):
+        GradientDescent(X_array, y_array, theta, alpha)
+        #PrintArray(theta)
+        current_cost = CostFunction(X_array, y_array, theta)
+        #print "round =", i, "; cost = ", current_cost
+        if (prev_cost < current_cost):
+            theta = prev_theta
+            break
+        cost.append(current_cost)
+        prev_cost = current_cost
+        prev_theta = theta
 
 def main():
     X = []
@@ -66,7 +86,17 @@ def main():
     iterations = 1500
     # Setting learning rate for gradient descent
     alpha = 0.01
-    cost = CostFunction(X, y, theta)
+#    cost = CostFunction(X, y, theta)
+#    print cost
+#    GradientDescent(X, y, theta, alpha)
+#    print theta
+    cost = []
+    # Optimizing cost function
+    Optimization(X, y, theta, alpha, iterations, cost)
+    # Plotting how cost varies as a function of number of repetitions
+    Plot(range(len(cost)), cost, "iterations", "cost", "tracking cost as repetitions increase")
+    print "minimum cost = %.4g" %(min(cost))
+    print "minimum theta =", theta
     
     
     
