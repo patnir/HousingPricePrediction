@@ -8,7 +8,6 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-import sys
 
 # Data contains the population of a city and the corresponding profits for a food truck
 
@@ -54,7 +53,7 @@ def GradientDescent(X, y, theta, alpha):
     theta = temp
 
 def Optimization(X_array, y_array, theta, alpha, repetitions, cost):
-    prev_cost = sys.maxint * sys.maxint
+    prev_cost = 0
     prev_theta = theta
     #print repetitions
     for i in range(repetitions):
@@ -62,7 +61,7 @@ def Optimization(X_array, y_array, theta, alpha, repetitions, cost):
         #PrintArray(theta)
         current_cost = CostFunction(X_array, y_array, theta)
         #print "round =", i, "; cost = ", current_cost
-        if (prev_cost < current_cost):
+        if (prev_cost < current_cost and i != 0):
             theta = prev_theta
             break
         cost.append(current_cost)
