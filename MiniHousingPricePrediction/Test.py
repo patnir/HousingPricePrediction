@@ -69,10 +69,12 @@ def GradientDescent(X, y, theta, alpha, iterations, cost):
         cost.append(CostFunction(X, y, theta))
     return (theta, cost)
     
-def UI(theta):    
+def UI(theta, mu, sigma):    
     try:
         sqft = float(raw_input('Enter sqft for the house: '))
         rooms = int(raw_input('Enter number of bedrooms for the house: '))
+        sqft = (sqft - mu[0]) / sigma[0]
+        rooms = (float(rooms) - mu[1]) / sigma[1]
         features = [[1], [sqft], [rooms]]
         price = sum(theta * features)
         print
@@ -96,7 +98,7 @@ def main():
     PrintArray(theta)
     print
     print 'Training completed'
-    UI(theta)
+    UI(theta, mu, sigma)
     
     
 if __name__ == "__main__":
