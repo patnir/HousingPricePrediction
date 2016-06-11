@@ -43,7 +43,6 @@ def CostFunction(X, y, theta):
     m = float(len(X))
     predictions = np.dot(X, theta)
     errors_squared = np.subtract(predictions, y)
-    #print errors_squared
     errors_squared = [round(math.pow(x, 2), 5) for x in errors_squared]
     J = (1.0 / (2.0 * m)) * sum(errors_squared)
     return J    

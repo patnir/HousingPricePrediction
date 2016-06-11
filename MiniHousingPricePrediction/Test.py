@@ -32,11 +32,10 @@ def ExtractColummnFromMatrix(matrix, i):
 def FeatureNormalize(X):
     mu = []
     sigma = []
-    m = float(len(X))
     for i in range(len(X[0])):
         row = ExtractColummnFromMatrix(X, i)
         mu.append(np.mean(row))
-        sigma.append(np.std(row) * math.sqrt((m) / (m - 1)))
+        sigma.append(np.std(row))
     X = np.subtract(X, mu)
     X = np.divide(X, sigma)
     return(mu, sigma, X)
@@ -81,7 +80,7 @@ def main():
     iterations = 400
     alpha = 0.01
     theta, cost = GradientDescent(X, y, theta, alpha, iterations, cost)
-    PrintArray(y)
+    PrintArray(theta)
     
     
     
