@@ -36,9 +36,7 @@ def FeatureNormalize(X):
     for i in range(len(X[0])):
         row = ExtractColummnFromMatrix(X, i)
         mu.append(np.mean(row))
-        sigma.append(np.std(row))
-    for i in range(len(sigma)):
-        sigma[i] = sigma[i] * math.sqrt((m) / (m - 1))
+        sigma.append(np.std(row) * math.sqrt((m) / (m - 1)))
     X = np.subtract(X, mu)
     X = np.divide(X, sigma)
     return(mu, sigma, X)
@@ -50,13 +48,42 @@ def AppendRowOfOnesToXNorm(Xnorm):
     X = [[1.0] + x for x in X]
     return X
 
+def CostFunction(X, y, theta):
+    m = float(len(X))
+    predictions = np.dot(X, theta)
+    errors_squared = np.subtract(predictions, y)
+    #print errors_squared
+    errors_squared = [round(math.pow(x, 2), 5) for x in errors_squared]
+    J = (1.0 / (2.0 * m)) * sum(errors_squared)
+    return J  
+
+def GradientDescent(X, y, theta, alpha, iterations, cost):
+    m = len(X)
+    for k in range(iterations):
+        temp = np.zeros((len(X[0]), 1))
+        errors1 = np.dot(X, theta)
+        errors = np.subtract(errors1, y)
+        offset = alpha / m
+        for i in range(len(theta)):
+            temp[i] = theta[i] - offset * sum(errors * np.transpose([ExtractColummnFromMatrix(X, i)]))
+        theta = temp
+        cost.append(CostFunction(X, y, theta))
+    return (theta, cost)
+
 def main():
     X = []
     y = []
     LoadData(X, y, "data.txt")
     mu, sigma, Xnorm = FeatureNormalize(X)  
     X = AppendRowOfOnesToXNorm(Xnorm)
-    PrintArray(X)    
+    theta = np.zeros((len(X[0]), 1))    
+    cost = []
+    iterations = 400
+    alpha = 0.01
+    theta, cost = GradientDescent(X, y, theta, alpha, iterations, cost)
+    PrintArray(y)
+    
+    
     
 if __name__ == "__main__":
     main()
