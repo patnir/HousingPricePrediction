@@ -40,7 +40,7 @@ def FeatureNormalize(X):
     X = np.divide(X, sigma)
     return(mu, sigma, X)
 
-def AppendRowOfOnesToXNorm(Xnorm):
+def AppendColumnOfOnesToXNorm(Xnorm):
     X = []
     for i in range(len(Xnorm)):
         X.append(list(Xnorm[i]))
@@ -68,20 +68,35 @@ def GradientDescent(X, y, theta, alpha, iterations, cost):
         theta = temp
         cost.append(CostFunction(X, y, theta))
     return (theta, cost)
+    
+def UI(theta):    
+    try:
+        sqft = float(raw_input('Enter sqft for the house: '))
+        rooms = int(raw_input('Enter number of bedrooms for the house: '))
+        features = [[1], [sqft], [rooms]]
+        price = sum(theta * features)
+        print
+        print 'The prediction for this house is $', round(price[0])
+    except:
+        print 'Print appropriate numbers for sqft and number of bedrooms'
+        UI(theta)
 
 def main():
     X = []
     y = []
     LoadData(X, y, "data.txt")
     mu, sigma, Xnorm = FeatureNormalize(X)  
-    X = AppendRowOfOnesToXNorm(Xnorm)
+    X = AppendColumnOfOnesToXNorm(Xnorm)
     theta = np.zeros((len(X[0]), 1))    
     cost = []
     iterations = 400
     alpha = 0.01
     theta, cost = GradientDescent(X, y, theta, alpha, iterations, cost)
+    print 'Optimal parameters'  
     PrintArray(theta)
-    
+    print
+    print 'Training completed'
+    UI(theta)
     
     
 if __name__ == "__main__":
