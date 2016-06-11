@@ -80,7 +80,7 @@ def featureNormalize(X):
     for i in range(len(X[0])):
         row = ExtractColummnFromMatrix(X, i)
         mu.append(np.mean(row))
-        sigma.append(np.std(row))
+        sigma.append(np.std(row))    
     X = np.subtract(X, mu)
     X = np.divide(X, sigma)
     return(mu, sigma, X)
