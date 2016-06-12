@@ -81,7 +81,7 @@ def UI(theta, mu, sigma):
         print 'The prediction for this house is $', round(price[0])
     except:
         print 'Print appropriate numbers for sqft and number of bedrooms'
-        UI(theta)
+        UI(theta, mu, sigma)
 
 def main():
     X = []
@@ -103,25 +103,3 @@ def main():
     
 if __name__ == "__main__":
     main()
-    
-    
-#def printValudation():
-#    LoadData(X, y, "data.txt")
-#    print "X"    
-#    PrintArray(X)
-#    print "y"
-#    PrintArray(y)
-#    m = len(y)
-#    print "m", m
-    
-    
-'''
-    print "X"    
-    PrintArray(X)
-    print "y"
-    PrintArray(y)
-    print "mu"
-    PrintArray(mu)
-    print "sigma"
-    PrintArray(sigma)
-    '''
