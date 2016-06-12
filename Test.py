@@ -40,7 +40,7 @@ def LoadDataFromFile():
                 Price.append(float(i[7]))
             track += 1
 
-LoadDataFromFile()
+# LoadDataFromFile()
 
 def MeanNormalizeData(array):
     maxMinArray = max(array) -  min(array)
@@ -68,12 +68,55 @@ def MeanNormalizeX():
         for j in range(0, len(row)):
             X[j][i] = row[j]
         
-MeanNormalizeX()
+# MeanNormalizeX()
 
+# PrintArray(X)
+
+# PrintArray(Price)
+
+# print Price[0]
+
+def LoadData(X, y, filename):
+    fhand = open(filename)
+    for line in fhand:
+        line = line.rstrip()
+        number = line.split('\t')
+        toAdd = []
+        for i in range(len(number) - 1):
+            toAdd.append(number[i])
+        X.append(toAdd)
+        y.append([number[-1]])
+        
+def GetDataX(X):
+    newX = []
+    for i in range(len(X)):
+        if i == 0:
+            continue
+        number = X[i]
+        number = [float(x) for x in number[0:-1]]
+        newX.append(number)
+    return newX
+    
+def GetDataY(y):
+    newY = []
+    for i in range(len(y)):
+        if i == 0:
+            continue
+        number = y[i]
+        number = [float(x) for x in number]
+        newY.append(number)
+    return newY
+
+X = []
+y = []
+filename = 'data.csv'
+LoadData(X, y, filename)
+X = GetDataX(X)
+y = GetDataY(y)
 PrintArray(X)
+PrintArray(y)
 
-PrintArray(Price)
 
-print Price[0]
+
         
     
